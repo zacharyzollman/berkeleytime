@@ -11,8 +11,7 @@ metadata:
   namespace: rook-ceph
 spec:
   cephVersion:
-    image: ceph/ceph:v15.2.4
-    allowUnsupported: false
+    image: ceph/ceph:v15.2.8
   skipUpgradeChecks: true
   dataDirHostPath: /var/lib/rook
   mon:
@@ -43,8 +42,6 @@ spec:
     #     cpu: "200m"
     #     memory: "1000M"
     # osd:
-    #   # Explicit limit of OSD absolutely necessary if low resources
-    #   # As for the above resources, answer not obvious yet
     #   requests:
     #     cpu: "200m"
     #     memory: "2G"
