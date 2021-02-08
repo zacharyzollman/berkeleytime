@@ -1,0 +1,30 @@
+.notfound {
+  @include responsive(padding-top, $bt-navbar-height, 175px);
+
+  height: 100vh;
+  min-height: 600px;
+       
+  img {
+    @include responsive(width, 300px, 200px);
+  }
+
+  .container {
+    height: 100%;
+
+    .row {
+      > * {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      @include desktop {
+        height: 100%;
+
+        > * {
+          height: 100%;
+        }
+      }
+    }
+  }
+}

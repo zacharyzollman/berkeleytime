@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { useHistory, useRouteMatch } from 'react-router';
 import { useSelector } from 'react-redux';
 import union from 'lodash/union';
 import difference from 'lodash/difference';
 
-import Filter from '../../components/Catalog/Filter';
-import FilterResults from '../../components/Catalog/FilterResults';
-import ClassDescription from '../../components/ClassDescription/ClassDescription';
-import ClassDescriptionModal from '../../components/ClassDescription/ClassDescriptionModal';
+import Filter from 'components/Catalog/Filter';
+import FilterResults from 'components/Catalog/FilterResults';
+import ClassDescription from 'components/ClassDescription/ClassDescription';
+import ClassDescriptionModal from 'components/ClassDescription/ClassDescriptionModal';
 
 import {
   CourseOverviewFragment,
@@ -17,7 +17,7 @@ import {
 import {
   FilterablePlaylist,
   playlistsToFilters,
-} from '../../utils/playlists/playlist';
+} from 'utils/playlists/playlist';
 import { ReduxState } from 'redux/store';
 import { CourseSortAttribute } from 'utils/courses/sorting';
 import { extractSemesters, getLatestSemester } from 'utils/playlists/semesters';
@@ -26,17 +26,29 @@ import { CourseReference, courseToName } from 'utils/courses/course';
 
 const DEFAULT_SORT: CourseSortAttribute = 'relevance';
 
-const Catalog = () => {
+const Catalog: FC = () => {
+  const history = useHistory();
+
+  const match = useRouteMatch<{ abbreviation: string; courseNumber: string }>(
+    '/catalog/:abbreviation/:courseNumber'
+  );
+
   const isMobile = useSelector((state: ReduxState) => state.common.mobile);
 
+  // current search query
   const [search, setSearch] = useState('');
-  const [sortBy, setSortBy] = useState<CourseSortAttribute>(DEFAULT_SORT);
-  const [allPlaylists, setAllPlaylists] = useState<FilterablePlaylist[]>([]);
-  const [activePlaylists, setActivePlaylists] = useState<string[]>([]); // The active filters
 
-  const [selectedCourse, setSelectedCourse] = useState<CourseReference | null>(
-    null
-  ); // Selected course ID
+  // current sort selection
+  const [sortBy, setSortBy] = useState<CourseSortAttribute>(DEFAULT_SORT);
+
+  // list of all playlists
+  const [allPlaylists, setAllPlaylists] = useState<FilterablePlaylist[]>([]);
+
+  // list of active playlists
+  const [activePlaylists, setActivePlaylists] = useState<string[]>([]);
+
+  // current selected course
+  const [selectedCourse, setSelectedCourse] = useState<CourseReference | null>(null);
 
   const {
     loading: loadingPlaylists,
@@ -51,11 +63,6 @@ const Catalog = () => {
       setActivePlaylists([latestSemester?.playlistId!]);
     },
   });
-
-  const history = useHistory();
-  const match = useRouteMatch<{ abbreviation: string; courseNumber: string }>(
-    '/catalog/:abbreviation/:courseNumber'
-  );
 
   /**
    * Adds and removes playlists from the active playlists. Executes remove
@@ -84,10 +91,8 @@ const Catalog = () => {
     });
   }
 
-  /**
-   * Resets the filters
-   */
-  function resetFilters() {
+  // Resets the filters
+  const resetFilters = () => {
     const latestSemester = getLatestSemester(allPlaylists);
     setActivePlaylists([latestSemester?.playlistId!]);
     setSortBy(DEFAULT_SORT);
@@ -133,14 +138,14 @@ const Catalog = () => {
   return (
     <div className="catalog viewport-app">
       <Row noGutters>
-        <Col md={3} lg={4} xl={3} className="filter-column">
+        <Col lg={4} xl={3} className="filter-column">
           {errorPlaylists ? (
             <div>A critical error occured loading.</div>
           ) : loadingPlaylists ? (
             <BTLoader showInstantly />
           ) : (
             <Filter
-              filters={filters!}
+              filters={filters}
               activeFilters={activePlaylists}
               modifyFilters={modifyFilters}
               resetFilters={resetFilters}
@@ -148,11 +153,10 @@ const Catalog = () => {
               setSearch={(query: string) => setSearch(query)}
               sort={sortBy}
               setSort={(sort: CourseSortAttribute) => setSortBy(sort)}
-              isMobile={isMobile}
             />
           )}
         </Col>
-        <Col md={3} lg={4} xl={3} className="filter-results-column">
+        <Col lg={4} xl={3} className="filter-results-column">
           <FilterResults
             activePlaylists={activePlaylists}
             selectCourse={selectCourse}
@@ -162,7 +166,6 @@ const Catalog = () => {
           />
         </Col>
         <Col
-          md={6}
           lg={4}
           xl={6}
           className="catalog-description-column"

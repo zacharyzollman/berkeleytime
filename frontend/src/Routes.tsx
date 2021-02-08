@@ -4,11 +4,10 @@ import BTLoader from 'components/Common/BTLoader';
 
 import Landing from './views/Landing';
 import Catalog from './views/Catalog/Catalog';
-// import Dashboard from './views/Dashboard/Dashboard';
 // import DesignApp from './views/Forms/DesignApp';
 // import EngineeringApp from './views/Forms/EngineeringApp';
 // import { Positions } from './views/Apply/DescriptionPages';
-import Error from './views/Error/Error';
+import NotFound from './views/NotFound';
 
 // const Grades = lazy(() => new Promise(() => {}));
 const Grades = lazy(() => import('./views/Grades/Grades'));
@@ -29,30 +28,30 @@ const TermsOfService = lazy(() => import('./views/Policies/TermsOfService'));
 const UserTestingForm = lazy(() => import('./views/Forms/UserTestingForm'));
 
 const routes: Array<RouteProps> = [
-  { path: '/landing', component: Landing },
-  { path: '/catalog', component: Catalog, exact: false },
-  { path: '/grades', component: Grades, exact: false },
-  { path: '/enrollment', component: Enrollment, exact: false },
-  { path: '/about', component: About },
+  { path: '/landing',        component: Landing },
+  { path: '/catalog',        component: Catalog,    exact: false },
+  { path: '/grades',         component: Grades,     exact: false },
+  { path: '/enrollment',     component: Enrollment, exact: false },
+  { path: '/about',          component: About },
   // { path: '/login',             component: Login           },
-  { path: '/releases', component: Releases },
-  { path: '/faq', component: Faq },
-  { path: '/apidocs', component: ApiDocs },
-  { path: '/testform', component: TestForm },
-  { path: '/bugs', component: BugsForm },
-  { path: '/usertesting', component: UserTestingForm },
-  { path: '/apply', component: Apply },
-  { path: '/profile', component: Profile },
+  { path: '/releases',       component: Releases },
+  { path: '/faq',            component: Faq },
+  { path: '/apidocs',        component: ApiDocs },
+  { path: '/testform',       component: TestForm },
+  { path: '/bugs',           component: BugsForm },
+  { path: '/usertesting',    component: UserTestingForm },
+  { path: '/apply',          component: Apply },
+  { path: '/profile',        component: Profile },
   { path: '/oauth2callback', component: Login },
-  { path: '/logout', component: Logout },
+  { path: '/logout',         component: Logout },
   // { path: '/scheduler', component: Scheduler },
   // { path: '/apply/positions',   component: Positions       },
   // { path: '/apply/engineering', component: EngineeringApp  },
   // { path: '/apply/design',      component: DesignApp       },
   // { path: '/apply/embed',       component: Apply           },
-  { path: '/error', component: Error },
-  { path: '/legal/privacy', component: PrivacyPolicy },
-  { path: '/legal/terms', component: TermsOfService },
+  // { path: '/error',          component: Error },
+  { path: '/legal/privacy',  component: PrivacyPolicy },
+  { path: '/legal/terms',    component: TermsOfService },
 ];
 
 const Routes: React.FC = () => (
@@ -74,8 +73,7 @@ const Routes: React.FC = () => (
           sensitive
         />
       ))}
-      {/* 404 page if nothing matches */}
-      <Route component={Error} />
+      <Route component={NotFound} /* 404 page if nothing matches */ /> 
     </Switch>
   </Suspense>
 );

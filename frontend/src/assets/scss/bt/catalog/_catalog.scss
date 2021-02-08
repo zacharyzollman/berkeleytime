@@ -1,22 +1,18 @@
 .catalog {
-
-  min-height: 600px;
-  height: 100vh;
+  height: 100%;
 
   @include mobile {
-    //row
-    > div {
+    > .row {
       height: 100%;
       overflow-y: scroll;
     }
   }
 
-  .row {
-    margin: 0; // override bootstrap padding
+  > .row {
+    height: 100%;
 
     .filter-column {
       border-right: 1.5px solid $bt-light-border-grey;
-      padding: 0; // override bootstrap padding
 
       @include mobile {
         max-height: 128px;

@@ -55,7 +55,9 @@ function easterEgg() {
  `, 'font-family:monospace')
 }
 
-interface Props extends PropsFromRedux {}
+const root = document.getElementById('root')!;
+
+interface Props extends ConnectedProps<typeof connector> {}
 
 class Berkeleytime extends Component<Props> {
   constructor(props: Props) {
@@ -63,14 +65,20 @@ class Berkeleytime extends Component<Props> {
 
     easterEgg()
 
+    // change to storing under 'banner' key next time
     const key = 'bt-spring-2021-catalog'
     if (localStorage.getItem(key) === null) {
       localStorage.setItem(key, key)
       props.openBanner()
     }
 
-    /* Clear storage if not storing anything */
-    // localStorage.clear()
+    // store banner string in key in localstorage
+    /*
+    if (localStorage.getItem('banner') !== key) {
+      localStorage.setItem('banner', key)
+      props.openBanner()
+    }
+    */
 
     this.checkMobile()
   }
@@ -84,9 +92,9 @@ class Berkeleytime extends Component<Props> {
   }
 
   checkMobile = () => {
-    if (window.innerWidth < 768 && !this.props.mobile) {
+    if (root.clientWidth < 992 && !this.props.mobile) {
       this.props.enterMobile()
-    } else if (window.innerWidth >= 768 && this.props.mobile) {
+    } else if (root.clientWidth >= 992 && this.props.mobile) {
       this.props.exitMobile()
     }
   }
@@ -99,7 +107,7 @@ class Berkeleytime extends Component<Props> {
     return (
       <>
         {!embeded && <Banner />}
-        <div className="app">
+        <div className="berkeleytime">
           {!embeded && <Navigation />}
           <Routes />
           {!embeded && <Footer />}
@@ -120,7 +128,5 @@ const mapDispatch = {
 }
 
 const connector = connect(mapState, mapDispatch)
-
-type PropsFromRedux = ConnectedProps<typeof connector>
 
 export default connector(Berkeleytime)

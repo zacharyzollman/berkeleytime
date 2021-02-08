@@ -2,14 +2,8 @@
 @import '~bootstrap/scss/bootstrap';
 
 // base & themes
-@import 'bt/base/responsive';
-@import 'bt/base/variables';
-@import 'bt/theming/colors';
-@import 'bt/base/typography';
-@import 'bt/theming/buttons';
-@import 'bt/theming/navbar';
-@import 'bt/theming/grades_color';
-@import 'bt/theming/enrollment_color';
+@import 'bt/base/base';
+@import 'bt/theming/theming';
 
 @import 'bt/berkeleytime';
 
@@ -69,14 +63,14 @@
 @import 'bt/about/position';
 
 // Apidocs
-@import 'bt/apidocs/apidocs';
+@import 'bt/apidocs';
 
 // Apply
 @import 'bt/forms';
 @import 'bt/positions';
 
-// Error page
-@import 'bt/error/error';
+// 404 page
+@import 'bt/notfound';
 
 // Profile
 @import 'bt/profile/profile';

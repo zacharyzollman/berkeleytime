@@ -38,7 +38,6 @@ const Jumbotron: FC = () => (
         </Col>
         <Col xs={{ span: 12, order: 2 }} lg={{ span: 7, order: 2 }}>
           <div className="animation-container">
-            {/* <img src={logo} alt="Welcome to BerkeleyTime." /> */}
             <Logo title="Welcome to Berkeleytime." />
           </div>
         </Col>

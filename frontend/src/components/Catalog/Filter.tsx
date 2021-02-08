@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { GroupedOptionsType } from 'react-select';
-import BTSelect from 'components/Custom/Select';
+import Select from 'components/Custom/Select';
 import FilterModal from './FilterModal';
 
 import {
@@ -20,8 +21,19 @@ import {
 import { CourseSortAttribute } from 'utils/courses/sorting';
 
 import { ReactComponent as SearchIcon } from '../../assets/svg/common/search.svg';
+import { ReduxState } from 'redux/store';
 
-type Props = {
+type SortOption = { value: CourseSortAttribute; label: string };
+
+const SORT_OPTIONS: SortOption[] = [
+  { value: 'relevance', label: 'Sort By: Relevance' },
+  { value: 'average_grade', label: 'Sort By: Average Grade' },
+  { value: 'department_name', label: 'Sort By: Department Name' },
+  { value: 'open_seats', label: 'Sort By: Open Seats' },
+  { value: 'enrolled_percentage', label: 'Sort By: Percent Enrolled' },
+];
+
+export interface Props {
   filters: Filters;
   activeFilters: string[];
   modifyFilters: (add: Set<string>, remove: Set<string>) => void;
@@ -32,20 +44,9 @@ type Props = {
 
   sort: string;
   setSort: (sort: CourseSortAttribute) => void;
-
-  isMobile?: boolean;
 };
 
-type SortOption = { value: CourseSortAttribute; label: string };
-const SORT_OPTIONS: SortOption[] = [
-  { value: 'relevance', label: 'Sort By: Relevance' },
-  { value: 'average_grade', label: 'Sort By: Average Grade' },
-  { value: 'department_name', label: 'Sort By: Department Name' },
-  { value: 'open_seats', label: 'Sort By: Open Seats' },
-  { value: 'enrolled_percentage', label: 'Sort By: Percent Enrolled' },
-];
-
-const FilterSidebar = ({
+const FilterSidebar: FC<Props> = ({
   filters,
   activeFilters,
   modifyFilters,
@@ -54,8 +55,9 @@ const FilterSidebar = ({
   setSearch,
   sort,
   setSort,
-  isMobile = false,
 }: Props) => {
+  const isMobile = useSelector((state: ReduxState) => state.common.mobile);
+
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [modal, setModal] = useState({
     options: [] as PlaylistDescription,
@@ -127,7 +129,7 @@ const FilterSidebar = ({
         <SearchIcon />
       </div>
       <div className="filter-sort">
-        <BTSelect
+        <Select
           isClearable={false}
           options={SORT_OPTIONS}
           isSearchable={false}
@@ -139,7 +141,7 @@ const FilterSidebar = ({
       {filters.map((option) => (
         <div className="filter-option" key={option.type}>
           <p>{filterTypeToString(option.type)}</p>
-          <BTSelect
+          <Select
             isClearable={filterTypeIsClearable(option.type)}
             isMulti={filterTypeIsMulti(option.type) as false}
             closeMenuOnSelect={!filterTypeIsMulti(option.type)}

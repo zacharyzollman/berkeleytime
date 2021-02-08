@@ -1,21 +1,6 @@
 .filter-results {
   height: 100%;
 
-  /*@include mobile {
-    height: 90vh;
-    //height: 70vh;
-
-    // Make scrollbar invisible
-    ::-webkit-scrollbar {
-      width: 0px;
-      background: transparent;
-    }
-  }*/
-
-  @include desktop {
-    padding-top: 20px;
-  }
-
   @include mobile {
   	padding: 10px 15px 15px 15px;
   }

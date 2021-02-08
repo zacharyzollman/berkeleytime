@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 // Wait this many MS before showing the loader.
 const TIME_BEFORE_LOADER = 80;
 
-type Props = {
+export interface Props {
   showInstantly?: boolean;
 };
 
-const BTLoader = ({
+const BTLoader: FC<Props> = ({
   showInstantly = false
 }: Props) => {
   const [showingLoader, setShowingLoader] = useState(false);
