@@ -14,7 +14,7 @@ import { ReactComponent as SupportSelected } from '../../assets/svg/profile/supp
 import { UserProfileFragment } from '../../graphql/graphql';
 import BTLoader from 'components/Common/BTLoader';
 import { useUser } from '../../graphql/hooks/user';
-import { Redirect } from 'react-router';
+import { Redirect, useHistory, useRouteMatch } from 'react-router';
 
 const tabs: {
   key: string;
@@ -49,7 +49,23 @@ const tabs: {
 ];
 
 const Profile = () => {
-  const [tabIndex, setTabIndex] = useState(0);
+  const history = useHistory();
+  const match = useRouteMatch<{ tab: string }>('/profile/:tab');
+  const routeTab = match?.params.tab ?? 'account';
+
+  let tabIndex = 0;
+  switch (routeTab) {
+    case 'notif':
+      tabIndex = 1;
+      break;
+    case 'support':
+      tabIndex = 2;
+      break;
+    default:
+      history.replace('/profile/account');
+  }
+
+  // const [tabIndex, setTabIndex] = useState(0);
   const { isLoggedIn, user, loading } = useUser();
 
   const TabComponent = tabs[tabIndex].component;
@@ -70,7 +86,11 @@ const Profile = () => {
                 variant="link"
                 key={tab.key}
                 className={tabIndex === index ? 'selected' : ''}
-                onClick={() => setTabIndex(index)}
+                onClick={() => {
+                  if (routeTab !== tab.key) {
+                    history.push(`/profile/${tab.key}`)
+                  }
+                }}
               >
                 {tabIndex === index ? tab.selectedImage : tab.deselectedImage}
                 <span>{tab.label}</span>
