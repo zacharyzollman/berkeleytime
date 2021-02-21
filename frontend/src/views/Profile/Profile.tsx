@@ -51,7 +51,7 @@ const tabs: {
 const Profile = () => {
   const history = useHistory();
   const match = useRouteMatch<{ tab: string }>('/profile/:tab');
-  const routeTab = match?.params.tab ?? 'account';
+  const routeTab = match?.params.tab ?? '';
 
   let tabIndex = 0;
   switch (routeTab) {
@@ -60,6 +60,8 @@ const Profile = () => {
       break;
     case 'support':
       tabIndex = 2;
+      break;
+    case 'account':
       break;
     default:
       history.replace('/profile/account');

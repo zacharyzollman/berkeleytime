@@ -41,7 +41,7 @@ const routes: Array<RouteProps> = [
   { path: '/bugs',           component: BugsForm },
   { path: '/usertesting',    component: UserTestingForm },
   { path: '/apply',          component: Apply },
-  { path: '/profile',        component: Profile },
+  { path: '/profile',        component: Profile,    exact: false },
   { path: '/oauth2callback', component: Login },
   { path: '/logout',         component: Logout },
   // { path: '/scheduler', component: Scheduler },
